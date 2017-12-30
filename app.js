@@ -1,8 +1,10 @@
 const express = require("express"),
       app = express();
       
+app.set("view engine", "ejs");
+      
 app.get("/", (req, res)=>{
-    res.send("root route");
+    res.render("index");
 });
 
 app.listen(process.env.PORT, process.env.IP);
