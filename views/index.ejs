@@ -1,3 +1,7 @@
 <% include partials/header.ejs %>
 <h1>This is the root route</h1>
+<% campgrounds.forEach(function (campground){ %>
+    <%= campground.name %>
+    <%= campground.description %>
+<% }); %>
 <% include partials/footer.ejs %>
