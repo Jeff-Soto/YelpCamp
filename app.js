@@ -50,5 +50,23 @@ app.post("/campgrounds", (req, res)=>{
     });
 });
 
+// Add SHOW ROUTE
+app.get("/campgrounds/:id", (req, res)=>{
+    Campground.findById(req.params.id,(err, foundCampground)=>{
+       if (err){
+           console.log("Error finding campground by ID: ", err);
+       } else{
+           res.render("show", {campground: foundCampground});
+       }
+    });
+});
+
+// Add EDIT ROUTE
+
+// Add UPDATE ROUTE
+
+// Add DESTROY ROUTE
+
+
 
 app.listen(process.env.PORT, process.env.IP);

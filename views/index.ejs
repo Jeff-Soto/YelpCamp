@@ -1,7 +1,23 @@
 <% include partials/header.ejs %>
-<h1>This is the root route</h1>
-<% campgrounds.forEach(function (campground){ %>
-    <%= campground.name %>
-    <%= campground.description %>
-<% }); %>
+<div class="container">
+    <div class="jumbotron">
+        <h1>Welcome to Yelp-Camp!</h1>
+        <p>Browse through different campgrounds below.</p>
+    </div>
+    <div class="row">
+        <% campgrounds.forEach(function (campground){ %>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="<%=campground.imageURL%>" alt="<%=campground.name%> photo">
+                    <div class="card-body">
+                        <h5 class="card-title"><%=campground.name%></h5>
+                        <span style="font-size: 14px;"><%=campground.createdOn.toDateString()%></span>
+                        <p class="card-text"><%=campground.description.substring(0,140) + "..."%></p>
+                        <a href="/campgrounds/<%=campground._id%>" class="btn btn-primary">See More</a>
+                     </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
 <% include partials/footer.ejs %>

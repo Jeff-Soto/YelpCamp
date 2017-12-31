@@ -1,6 +1,9 @@
 h1,h2,h3,h4,h5,h6{
     color: #5cb85c !important;
 }
+#appContainer{
+    margin-top: 70px;
+}
 hr{
     width: 15%;
     border: none;
