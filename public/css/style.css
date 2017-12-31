@@ -2,7 +2,17 @@ h1,h2,h3,h4,h5,h6{
     color: #5cb85c !important;
 }
 #appContainer{
-    margin-top: 70px;
+    margin-top: 80px;
+}
+#footer{
+    background-color: #333;
+    margin-top: 40px;
+}
+#footer p{
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
 }
 hr{
     width: 15%;
@@ -15,4 +25,11 @@ hr{
 }
 .newForm form{
     width: 75vw;
+}
+.camp-container{
+    margin-bottom: 20px;
+}
+.camp-container .card{
+    display: block;
+    margin: 0 auto;
 }

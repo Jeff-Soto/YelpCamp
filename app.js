@@ -11,7 +11,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/views/partials"));
 app.use(bodyParser.urlencoded({extended: true}));
 
-// Root route
+// ***** CAMPGROUND ROUTES *******
 app.get("/", (req, res)=>{
     res.redirect("/campgrounds");
 });
@@ -50,7 +50,7 @@ app.post("/campgrounds", (req, res)=>{
     });
 });
 
-// Add SHOW ROUTE
+// SHOW ROUTE
 app.get("/campgrounds/:id", (req, res)=>{
     Campground.findById(req.params.id,(err, foundCampground)=>{
        if (err){
