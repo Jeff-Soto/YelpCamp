@@ -1,5 +1,37 @@
-<% include partials/header.ejs %>
-<h1>This is the show route</h1>
-<%= campground.name %>
-<%= campground.description %>
-<% include partials/footer.ejs %>
+<% include partials/header %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- info pane -->
+            <p class="lead">YelpCamp</p>
+            <div class="list-group">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 3</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card mb-3">
+                <img class="img-responsive card-img-top" src="<%= campground.imageURL %>">
+                <div class="card-body">
+                    <h4 class="card-title">$9.00/night</h4>
+                    <h4 class="card-title"><a><%=campground.name%></a></h4>
+                    <p><%= campground.description %></p>
+                </div>
+            </div>
+            <div class="card card-body bg-light">
+                <div class="text-right">
+                    <!-- This will be the comments section -->
+                    <a href="#" class="btn btn-success">Add Comment</a>
+                </div>
+                <div>
+                    <p>Comment 1</p>
+                    <p>Comment 2</p>
+                    <p>Comment 3</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer %>
