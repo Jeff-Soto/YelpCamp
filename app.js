@@ -90,6 +90,23 @@ app.put("/campgrounds/:id", (req,res)=>{
 });
 
 // Add DESTROY ROUTE
+app.delete("/campgrounds/:id", (req, res)=>{
+    Campground.findByIdAndRemove(req.params.id, (err)=>{
+        if (err) {
+            console.log("Error deleting campground: ",err);
+        } else {
+            res.redirect("/campgrounds");
+        }
+    });
+});
+
+// Move Campground Routes to ROUTES folder
+
+// Create USER model.
+
+// Add Link to edit/delete campgrounds for authors.
+
+// Add user data to index, show, etc.
 
 
 

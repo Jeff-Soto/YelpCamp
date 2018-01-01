@@ -26,6 +26,9 @@ hr{
 .newForm form{
     width: 75vw;
 }
+.deleteForm{
+    display: inline;
+}
 .camp-container{
     margin-bottom: 20px;
 }
