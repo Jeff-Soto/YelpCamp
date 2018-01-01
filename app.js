@@ -1,6 +1,7 @@
 const express = require("express"),
       mongoose = require("mongoose"),
       Campground = require("./models/campground"),
+      methodOverride = require("method-override"),
       bodyParser = require("body-parser"),
       app = express();
       
@@ -10,6 +11,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/views/partials"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 
 // ***** CAMPGROUND ROUTES *******
 app.get("/", (req, res)=>{
@@ -62,8 +64,30 @@ app.get("/campgrounds/:id", (req, res)=>{
 });
 
 // Add EDIT ROUTE
+app.get("/campgrounds/:id/edit", (req, res)=>{
+    Campground.findById(req.params.id,(err, foundCampground)=>{
+       if (err){
+           console.log("Error finding campground by ID: ", err);
+       } else{
+           res.render("edit", {campground: foundCampground});
+       }
+    });
+});
 
 // Add UPDATE ROUTE
+app.put("/campgrounds/:id", (req,res)=>{
+    const updatedCampData = {
+        name: req.body.name,
+        description: req.body.description
+    };
+   Campground.findByIdAndUpdate(req.params.id, updatedCampData, (err, updatedCampground)=>{
+       if (err){
+           console.log("Error finding/updating campground: ", err);
+       } else{
+           res.redirect("/campgrounds/"+req.params.id);
+       }
+   }); 
+});
 
 // Add DESTROY ROUTE
 
