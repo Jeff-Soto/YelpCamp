@@ -104,9 +104,11 @@ app.delete("/campgrounds/:id", (req, res)=>{
 
 // Create USER model.
 
-// Add Link to edit/delete campgrounds for authors.
+// add login system.
 
-// Add user data to index, show, etc.
+// Hide edit/delete campgrounds for non-authors.
+
+// Add author data to index, show, etc.
 
 
 
