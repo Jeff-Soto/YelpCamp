@@ -10,30 +10,6 @@ const databaseUri = process.env.DATABASE_URI || 'mongodb://localhost/yelp_camp';
 mongoose.connect(databaseUri)
       .then(() => console.log(`Database connected`))
       .catch(err => console.log(`Database connection error: ${err.message}`));
-
-// Create dummy campground with dummy comment associated
-
-// Campground.create({
-//     name: "Dummy",
-//     description: "Dummy campground to test comments"
-// }, (err, camp)=>{
-//     if (err){
-//         console.log(err);
-//     } else{
-//         Comment.create({
-//             author: "Dummy Author",
-//             text: "Dummy comment"
-//         }, (err, comment)=>{
-//             if (err){
-//                 console.log(err);
-//             } else{
-//                 camp.comments.push(comment);
-//                 camp.save();
-//                 console.log(camp);
-//             }
-//         });
-//     }
-// });
       
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -52,14 +28,14 @@ app.get("/campgrounds", (req, res)=>{
         if (err){
             console.log("Something went wrong when finding all campgrounds.", err);
         } else{
-           res.render("index", {campgrounds: allCampgrounds}); 
+           res.render("campgrounds/index", {campgrounds: allCampgrounds}); 
         }
     });
 });
 
 // NEW ROUTE
 app.get("/campgrounds/new", (req, res)=>{
-    res.render("new");
+    res.render("campgrounds/new");
 });
 
 // CREATE ROUTE
@@ -86,7 +62,7 @@ app.get("/campgrounds/:id", (req, res)=>{
        if (err){
            console.log("Error finding campground by ID: ", err);
        } else{
-           res.render("show", {campground: foundCampground});
+           res.render("campgrounds/show", {campground: foundCampground});
        }
     });
 });
@@ -97,7 +73,7 @@ app.get("/campgrounds/:id/edit", (req, res)=>{
        if (err){
            console.log("Error finding campground by ID: ", err);
        } else{
-           res.render("edit", {campground: foundCampground});
+           res.render("campgrounds/edit", {campground: foundCampground});
        }
     });
 });
@@ -135,7 +111,7 @@ app.get("/campgrounds/:id/comments/new", (req, res)=>{
             console.log("Error in comments new: ", err);
        } else{
            console.log(campground);
-           res.render("newComment", {campground: campground});
+           res.render("comments/new", {campground: campground});
        }
     });
 });
