@@ -6,31 +6,34 @@ const express = require("express"),
       bodyParser = require("body-parser"),
       app = express();
       
-mongoose.connect(process.env.DATABASEURL || "mongodb://localhost/yelp_camp");
+const databaseUri = process.env.DATABASE_URI || 'mongodb://localhost/yelp_camp';
+mongoose.connect(databaseUri)
+      .then(() => console.log(`Database connected`))
+      .catch(err => console.log(`Database connection error: ${err.message}`));
 
 // Create dummy campground with dummy comment associated
 
-Campground.create({
-    name: "Dummy",
-    description: "Dummy campground to test comments"
-}, (err, camp)=>{
-    if (err){
-        console.log(err);
-    } else{
-        Comment.create({
-            author: "Dummy Author",
-            text: "Dummy comment"
-        }, (err, comment)=>{
-            if (err){
-                console.log(err);
-            } else{
-                camp.comments.push(comment);
-                camp.save();
-                console.log(camp);
-            }
-        });
-    }
-});
+// Campground.create({
+//     name: "Dummy",
+//     description: "Dummy campground to test comments"
+// }, (err, camp)=>{
+//     if (err){
+//         console.log(err);
+//     } else{
+//         Comment.create({
+//             author: "Dummy Author",
+//             text: "Dummy comment"
+//         }, (err, comment)=>{
+//             if (err){
+//                 console.log(err);
+//             } else{
+//                 camp.comments.push(comment);
+//                 camp.save();
+//                 console.log(camp);
+//             }
+//         });
+//     }
+// });
       
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -125,8 +128,39 @@ app.delete("/campgrounds/:id", (req, res)=>{
     });
 });
 
-// Move Campground Routes to ROUTES folder
+// ******* COMMENTS ROUTES ********
+app.get("/campgrounds/:id/comments/new", (req, res)=>{
+    Campground.findById(req.params.id, (err, campground)=>{
+        if (err){
+            console.log("Error in comments new: ", err);
+       } else{
+           console.log(campground);
+           res.render("newComment", {campground: campground});
+       }
+    });
+});
 
+app.post("/campgrounds/:id/comments", (req, res)=>{
+   Campground.findById(req.params.id, (err, campground)=>{
+       if (err){
+           console.log("Error finding campground: ",err);
+       } else{
+           Comment.create(req.body.comment, (err, comment) =>{
+                   if (err){
+                       console.log("Error creating comment: ", err);
+                   } else{
+                       comment.save();
+                       campground.comments.push(comment._id);
+                       campground.save();
+                       res.redirect("/campgrounds/"+campground._id);
+                   }
+           });
+       }
+   });
+});
+
+// Move Campground Routes to ROUTES folder
+// 
 // Create USER model.
 
 // add login system.
