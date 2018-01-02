@@ -29,9 +29,10 @@
                     <a href="#" class="btn btn-success">Add Comment</a>
                 </div>
                 <div>
-                    <p>Comment 1</p>
-                    <p>Comment 2</p>
-                    <p>Comment 3</p>
+                    <% campground.comments.forEach((comment)=>{ %>
+                        <p>By: <%=comment.author%></p>
+                        <p><%=comment.text%></p>
+                    <% }); %>
                 </div>
             </div>
         </div>

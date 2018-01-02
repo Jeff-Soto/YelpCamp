@@ -1,11 +1,36 @@
 const express = require("express"),
       mongoose = require("mongoose"),
       Campground = require("./models/campground"),
+      Comment = require("./models/comment"),
       methodOverride = require("method-override"),
       bodyParser = require("body-parser"),
       app = express();
       
 mongoose.connect(process.env.DATABASEURL || "mongodb://localhost/yelp_camp");
+
+// Create dummy campground with dummy comment associated
+
+Campground.create({
+    name: "Dummy",
+    description: "Dummy campground to test comments"
+}, (err, camp)=>{
+    if (err){
+        console.log(err);
+    } else{
+        Comment.create({
+            author: "Dummy Author",
+            text: "Dummy comment"
+        }, (err, comment)=>{
+            if (err){
+                console.log(err);
+            } else{
+                camp.comments.push(comment);
+                camp.save();
+                console.log(camp);
+            }
+        });
+    }
+});
       
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -54,7 +79,7 @@ app.post("/campgrounds", (req, res)=>{
 
 // SHOW ROUTE
 app.get("/campgrounds/:id", (req, res)=>{
-    Campground.findById(req.params.id,(err, foundCampground)=>{
+    Campground.findById(req.params.id).populate("comments").exec((err, foundCampground)=>{
        if (err){
            console.log("Error finding campground by ID: ", err);
        } else{
