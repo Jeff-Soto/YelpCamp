@@ -1,0 +1,21 @@
+<% include partials/header.ejs %>
+<div class="container">
+    <div class="row justify-content-center align-items-center newForm">
+        <div class="col-xs-12">
+            <h1 class="text-center">Log In</h1>
+            <hr class="formHR">
+            <form action="/login" method="POST">
+              <div class="form-group">
+                <label>Username: </label>
+                <input type="text" class="form-control" name="username" placeholder="name" required>
+              </div>
+              <div class="form-group">
+                <label>Password: </label>
+                <input type="password" class="form-control" name="password" placeholder="password" required>
+              </div>
+              <input type="submit" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+</div>    
+<% include partials/footer.ejs %>

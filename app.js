@@ -2,8 +2,13 @@ const express = require("express"),
       mongoose = require("mongoose"),
       Campground = require("./models/campground"),
       Comment = require("./models/comment"),
+      User = require("./models/user"),
       methodOverride = require("method-override"),
       bodyParser = require("body-parser"),
+      passport = require("passport"),
+      passportLocal = require("passport-local"),
+      passportLocalMongoose = require("passport-local-mongoose"),
+      eSession = require("express-session"),
       app = express();
       
 const databaseUri = process.env.DATABASE_URI || 'mongodb://localhost/yelp_camp';
@@ -12,6 +17,22 @@ mongoose.connect(databaseUri)
       .catch(err => console.log(`Database connection error: ${err.message}`));
       
 app.set("view engine", "ejs");
+// auth
+app.use(eSession({
+    secret: "Whatever, doesn't really matter right now",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new passportLocal(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+
+// end auth
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/views/partials"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -135,9 +156,43 @@ app.post("/campgrounds/:id/comments", (req, res)=>{
    });
 });
 
+// REGISTER ROUTES
+app.get("/register", (req, res)=>{
+   res.render("register"); 
+});
+
+app.post("/register", (req, res)=>{
+    User.register(new User({ username: req.body.username }), req.body.password, (err, user) =>{
+		if (err){
+			return res.redirect("/register");
+		}
+		// authenticate user
+		passport.authenticate('local')(req, res, ()=>{
+			res.redirect("/campgrounds");
+		});
+	});
+});
+
+// LOGIN ROUTES
+app.get("/login", (req, res)=>{
+   res.render("login");
+});
+
+app.post('/login', passport.authenticate('local', {
+		successRedirect: '/campgrounds',
+		failureRedirect: '/login'
+	}), (req, res) => {
+		
+});
+
+// LOGOUT
+app.get('/logout', (req, res)=>{
+	req.logout();
+	res.redirect('/campgrounds');
+});
+
+
 // Move Campground Routes to ROUTES folder
-// 
-// Create USER model.
 
 // add login system.
 
