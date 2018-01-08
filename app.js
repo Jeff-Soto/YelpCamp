@@ -16,6 +16,20 @@ mongoose.connect(databaseUri)
       .then(() => console.log(`Database connected`))
       .catch(err => console.log(`Database connection error: ${err.message}`));
       
+// MIDDLEWARE TO CHECK IF PEOPLE ARE LOGGED IN
+const isLoggedIn = (req, res, next) => {
+    if(User.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
+
+//Middleware to add currentUser to res.locals
+const currUser = (req, res, next) =>{
+    res.locals.currentUser = req.user;
+    next();
+}
+      
 app.set("view engine", "ejs");
 // auth
 app.use(eSession({
@@ -29,9 +43,7 @@ app.use(passport.session());
 passport.use(new passportLocal(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-
-
+app.use(currUser);
 // end auth
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/views/partials"));
@@ -190,14 +202,6 @@ app.get('/logout', (req, res)=>{
 	req.logout();
 	res.redirect('/campgrounds');
 });
-
-// MIDDLEWARE TO CHECK IF PEOPLE ARE LOGGED IN
-const isLoggedIn = (req, res, next) => {
-    if(User.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
 
 
 // Move Campground Routes to ROUTES folder

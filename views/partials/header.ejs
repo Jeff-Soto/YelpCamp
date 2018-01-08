@@ -21,6 +21,13 @@
                 <a class="nav-link" href="/campgrounds/new">Add New</a>
               </li>
             </ul>
+            <% if (!currentUser){ %>
+              <a class="nav-link" href="/login">Login</a>
+              <a class="nav-link" href="/register">Sign Up</a>
+            <% } else {%>
+                  <a class="nav-link userNav" href="#">Hello, <%= currentUser.username %></a>
+                  <a class="nav-link" href="/logout">Logout</a>
+            <% } %>
           </div>
         </nav>
         <div id="appContainer">
