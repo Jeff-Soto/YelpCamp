@@ -55,7 +55,7 @@ app.get("/campgrounds", (req, res)=>{
 });
 
 // NEW ROUTE
-app.get("/campgrounds/new", (req, res)=>{
+app.get("/campgrounds/new", isLoggedIn, (req, res)=>{
     res.render("campgrounds/new");
 });
 
@@ -126,7 +126,7 @@ app.delete("/campgrounds/:id", (req, res)=>{
 });
 
 // ******* COMMENTS ROUTES ********
-app.get("/campgrounds/:id/comments/new", (req, res)=>{
+app.get("/campgrounds/:id/comments/new", isLoggedIn, (req, res)=>{
     Campground.findById(req.params.id, (err, campground)=>{
         if (err){
             console.log("Error in comments new: ", err);
@@ -191,10 +191,16 @@ app.get('/logout', (req, res)=>{
 	res.redirect('/campgrounds');
 });
 
+// MIDDLEWARE TO CHECK IF PEOPLE ARE LOGGED IN
+const isLoggedIn = (req, res, next) => {
+    if(User.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
+
 
 // Move Campground Routes to ROUTES folder
-
-// add login system.
 
 // Hide edit/delete campgrounds for non-authors.
 
