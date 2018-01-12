@@ -21,9 +21,6 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
 });
-app.use("/campgrounds", campgroundRoutes);    
-app.use("/campgrounds/:id/comments",commentRoutes);    
-app.use("/", indexRoutes);  
 // auth
 app.use(eSession({
     secret: "Whatever, doesn't really matter right now",
@@ -42,9 +39,9 @@ app.use(express.static(__dirname + "/views/partials"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 
-
-
-// Move Campground Routes to ROUTES folder
+app.use("/campgrounds", campgroundRoutes);    
+app.use("/campgrounds/:id/comments",commentRoutes);    
+app.use("/", indexRoutes);  
 
 // Hide edit/delete campgrounds for non-authors.
 

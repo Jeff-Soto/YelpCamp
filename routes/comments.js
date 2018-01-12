@@ -1,7 +1,7 @@
 const express = require("express"),
       Comment = require("../models/comment"),
       Campground = require("../models/campground"),
-      middleware = require("../middleware/index"),
+      middleware = require("../middleware"),
       router = express.Router({mergeParams: true});
 
 // ******* COMMENTS ROUTES ********
@@ -25,6 +25,8 @@ router.post("/", (req, res)=>{
                    if (err){
                        console.log("Error creating comment: ", err);
                    } else{
+                       comment.author.id = req.user._id;
+                       comment.author.username = req.user.username;
                        comment.save();
                        campground.comments.push(comment._id);
                        campground.save();

@@ -1,8 +1,7 @@
-const User = require("../models/user");
 const middlewareObj = {};
 
 middlewareObj.isLoggedIn = (req, res, next) => {
-    if(User.isAuthenticated()){
+    if(req.isAuthenticated()){
         return next();
     }
     res.redirect("/login");
