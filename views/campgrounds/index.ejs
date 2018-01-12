@@ -11,9 +11,9 @@
                     <img class="card-img-top" src="<%=campground.imageURL%>" alt="<%=campground.name%> photo">
                     <div class="card-body">
                         <h5 class="card-title"><%=campground.name%></h5>
-                        <span style="font-size: 14px;"><%=campground.createdOn.toDateString()%></span>
-                        <p class="card-text"><%=campground.description.substring(0,140) + "..."%></p>
-                        <a href="/campgrounds/<%=campground._id%>" class="btn btn-primary">See More</a>
+                        <span style="font-size: 14px;"><%= campground.createdOn.toDateString() %></span>
+                        <p class="card-text"><%= campground.description.substring(0,140) + "..." %></p>
+                        <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">See More</a>
                      </div>
                 </div>
             </div>

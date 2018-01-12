@@ -24,7 +24,7 @@
             <% if (!currentUser){ %>
               <a class="nav-link" href="/login">Login</a>
               <a class="nav-link" href="/register">Sign Up</a>
-            <% } else {%>
+            <% } else { %>
                   <a class="nav-link userNav" href="#">Hello, <%= currentUser.username %></a>
                   <a class="nav-link" href="/logout">Logout</a>
             <% } %>
