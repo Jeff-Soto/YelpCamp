@@ -21,10 +21,14 @@ router.get("/new", middleware.isLoggedIn, (req, res)=>{
 });
 
 // CREATE ROUTE
-router.post("/", (req, res)=>{
+router.post("/", middleware.isLoggedIn, (req, res)=>{
     const newCampData = {
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        author: {
+            id: req.user._id,
+            username: req.user.username
+        }
     };
     console.log(newCampData);
     Campground.create( newCampData, (err, newCampground)=>{

@@ -21,24 +21,24 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
 });
+
 // auth
 app.use(eSession({
     secret: "Whatever, doesn't really matter right now",
     resave: false,
     saveUninitialized: false
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new passportLocal(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 // end auth
+
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/views/partials"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
-
 app.use("/campgrounds", campgroundRoutes);    
 app.use("/campgrounds/:id/comments",commentRoutes);    
 app.use("/", indexRoutes);  
@@ -47,6 +47,7 @@ app.use("/", indexRoutes);
 
 // Add author data to index, show, etc.
 
+// USER NOT DETECTED ON NAVBAR WHEN LOGGED IN - NEEDS FIX
 
 
 app.listen(process.env.PORT, process.env.IP);

@@ -5,6 +5,13 @@ const campgroundSchema = new mongoose.Schema({
     imageURL: { type: String, default: "/images/noImage.png"},
     description: String,
     createdOn: { type: Date, default: Date.now },
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
+    },
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
