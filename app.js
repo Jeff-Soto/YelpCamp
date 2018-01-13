@@ -17,10 +17,6 @@ mongoose.connect(databaseUri)
       .catch(err => console.log(`Database connection error: ${err.message}`));
 
 app.set("view engine", "ejs");
-app.use((req, res, next) => {
-    res.locals.currentUser = req.user;
-    next();
-});
 
 // auth
 app.use(eSession({
@@ -33,6 +29,11 @@ app.use(passport.session());
 passport.use(new passportLocal(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+});
+
 // end auth
 
 app.use(express.static(__dirname + "/public"));
@@ -46,8 +47,6 @@ app.use("/", indexRoutes);
 // Hide edit/delete campgrounds for non-authors.
 
 // Add author data to index, show, etc.
-
-// USER NOT DETECTED ON NAVBAR WHEN LOGGED IN - NEEDS FIX
 
 
 app.listen(process.env.PORT, process.env.IP);

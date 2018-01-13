@@ -30,12 +30,11 @@ router.post("/", middleware.isLoggedIn, (req, res)=>{
             username: req.user.username
         }
     };
-    console.log(newCampData);
     Campground.create( newCampData, (err, newCampground)=>{
-        if (err){
+        if (err) {
             console.log("Error detected when creating new campground: ", err);
             res.redirect("/campgrounds");
-        } else{
+        } else {
             console.log("Successfully created campground: ",newCampground);
             res.redirect("/campgrounds");
         }
@@ -54,7 +53,7 @@ router.get("/:id", (req, res)=>{
 });
 
 // Add EDIT ROUTE
-router.get("/:id/edit", middleware.isLoggedIn, (req, res)=>{
+router.get("/:id/edit", middleware.checkCampgroundOwnership, (req, res) => {
     Campground.findById(req.params.id,(err, foundCampground)=>{
        if (err){
            console.log("Error finding campground by ID: ", err);
@@ -65,7 +64,7 @@ router.get("/:id/edit", middleware.isLoggedIn, (req, res)=>{
 });
 
 // Add UPDATE ROUTE
-router.put("/:id", (req,res)=>{
+router.put("/:id", middleware.checkCampgroundOwnership, (req,res)=>{
     const updatedCampData = {
         name: req.body.name,
         description: req.body.description
@@ -80,7 +79,7 @@ router.put("/:id", (req,res)=>{
 });
 
 // Add DESTROY ROUTE
-router.delete("/:id", (req, res)=>{
+router.delete("/:id", middleware.checkCampgroundOwnership, (req, res)=>{
     Campground.findByIdAndRemove(req.params.id, (err)=>{
         if (err) {
             console.log("Error deleting campground: ",err);

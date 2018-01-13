@@ -18,10 +18,12 @@
                     <h4 class="card-title"><a><%= campground.name %></a></h4>
                     <p><%= campground.description %></p>
                     <p><em>Submitted By <%=campground.author.username %></em></p>
-                    <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
-                    <form class="deleteForm" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-                        <input type="submit" class="btn btn-danger" value="Delete">
-                    </form>
+                    <% if (currentUser && campground.author.id.equals(currentUser._id)) { %>
+                        <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+                        <form class="deleteForm" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                            <input type="submit" class="btn btn-danger" value="Delete">
+                        </form>
+                    <% } %>
                 </div>
             </div>
             <div class="card card-body bg-light">
