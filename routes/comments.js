@@ -41,13 +41,19 @@ router.post("/", (req, res)=>{
 });
 
 router.get("/:commentId/edit", middleware.checkCommentOwnership, (req, res) => {
-    Comment.findById(req.params.commentId, (err, comment)=>{
-        if (err){
-            req.flash("error", "Error, try again.");
-            res.redirect("back");
-        } else {
-            res.render("comments/edit", {comment: comment, campground_id: req.params.id});
+    Campground.findById(req.params.id, (err, foundCampground) => {
+        if (err || !foundCampground){
+            req.flash("error", "Campground not found.");
+            return res.redirect("back");
         }
+        Comment.findById(req.params.commentId, (err, comment)=>{
+            if (err){
+                req.flash("error", "Error, try again.");
+                res.redirect("back");
+            } else {
+                res.render("comments/edit", {comment: comment, campground_id: req.params.id});
+            }
+        });
     });
 });
 
