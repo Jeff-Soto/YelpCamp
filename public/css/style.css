@@ -1,8 +1,9 @@
 h1,h2,h3,h4,h5,h6{
     color: #5cb85c !important;
 }
-#appContainer{
-    margin-top: 80px;
+
+.alertContainer{
+    margin-top: 20px;
 }
 #footer{
     background-color: #333;
@@ -21,7 +22,7 @@ h1,h2,h3,h4,h5,h6{
     background-color: black;
 }
 .newForm{
-    height: 100vh;
+    height: 70vh;
 }
 .newForm form{
     width: 75vw;
