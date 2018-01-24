@@ -5,7 +5,7 @@ const express = require("express"),
 
 
 router.get("/", (req,res)=>{
-    res.redirect("/campgrounds");
+    res.render("landing");
 });
 // REGISTER ROUTES
 router.get("/register", (req, res)=>{

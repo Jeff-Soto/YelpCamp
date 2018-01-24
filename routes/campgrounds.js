@@ -57,7 +57,7 @@ router.get("/:id", (req, res)=>{
 // Add EDIT ROUTE
 router.get("/:id/edit", middleware.checkCampgroundOwnership, (req, res) => {
     Campground.findById(req.params.id,(err, foundCampground)=>{
-       if (err){
+       if (err || !foundCampground){
            req.flash("error", "Campground could not be found.");
            res.redirect("back");
        } else{
